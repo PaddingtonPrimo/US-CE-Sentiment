@@ -2,50 +2,88 @@ import { useState } from "react";
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend, Cell } from "recharts";
 
 const sentimentData = [
-  { month: "Jan '25", michigan: 73.2, conference: 104.1, label: "Optimistic start", phase: "optimism" },
-  { month: "Feb '25", michigan: 71.7, conference: 100.1, label: "", phase: "optimism" },
-  { month: "Mar '25", michigan: 68.5, conference: 93.9, label: "Early cracks", phase: "decline" },
-  { month: "Apr '25", michigan: 52.2, conference: 85.7, label: '"Liberation Day" shock', phase: "shock" },
-  { month: "May '25", michigan: 50.8, conference: 80.6, label: "Near historic lows", phase: "shock" },
-  { month: "Jun '25", michigan: 53.4, conference: 82.3, label: "", phase: "trough" },
-  { month: "Jul '25", michigan: 56.1, conference: 86.0, label: "Brief rebound", phase: "trough" },
-  { month: "Aug '25", michigan: 55.7, conference: 84.1, label: "New tariffs hit", phase: "trough" },
-  { month: "Sep '25", michigan: 54.2, conference: 83.5, label: "", phase: "trough" },
-  { month: "Oct '25", michigan: 53.8, conference: 82.9, label: "", phase: "trough" },
-  { month: "Nov '25", michigan: 53.1, conference: 81.5, label: "Holiday caution", phase: "erosion" },
-  { month: "Dec '25", michigan: 52.9, conference: 79.8, label: "Year-end low", phase: "erosion" },
-  { month: "Jan '26", michigan: 56.4, conference: 89.0, label: "Slight uptick", phase: "stabilize" },
-  { month: "Feb '26", michigan: 56.6, conference: 91.2, label: "Stagnation", phase: "stabilize" },
+  { month: "Jan '25", michigan: 73.2, conference: 104.1, phase: "optimism" },
+  { month: "Feb '25", michigan: 71.7, conference: 100.1, phase: "optimism" },
+  { month: "Mar '25", michigan: 68.5, conference: 93.9, phase: "decline" },
+  { month: "Apr '25", michigan: 52.2, conference: 85.7, phase: "shock" },
+  { month: "May '25", michigan: 50.8, conference: 80.6, phase: "shock" },
+  { month: "Jun '25", michigan: 53.4, conference: 82.3, phase: "trough" },
+  { month: "Jul '25", michigan: 56.1, conference: 86.0, phase: "trough" },
+  { month: "Aug '25", michigan: 55.7, conference: 84.1, phase: "trough" },
+  { month: "Sep '25", michigan: 54.2, conference: 83.5, phase: "trough" },
+  { month: "Oct '25", michigan: 53.8, conference: 82.9, phase: "trough" },
+  { month: "Nov '25", michigan: 53.1, conference: 81.5, phase: "erosion" },
+  { month: "Dec '25", michigan: 52.9, conference: 79.8, phase: "erosion" },
+  { month: "Jan '26", michigan: 56.4, conference: 89.0, phase: "stabilize" },
+  { month: "Feb '26", michigan: 56.6, conference: 91.0, phase: "stabilize" },
+  { month: "Mar '26", michigan: 53.3, conference: 91.8, phase: "reversal" },
+  { month: "Apr '26", michigan: 49.8, conference: 92.8, phase: "crisis" },
+  { month: "May '26*", michigan: 48.2, conference: null, phase: "crisis" },
 ];
 
 const ceSpendingData = [
-  { quarter: "Q1 '25", growth: 1.5, label: "Pull-forward buying", color: "#10b981" },
-  { quarter: "Q2 '25", growth: 0.8, label: "Slowing", color: "#f59e0b" },
-  { quarter: "Q3 '25", growth: -1.1, label: "Pullback begins", color: "#ef4444" },
-  { quarter: "Q4 '25", growth: -2.2, label: "Demand softens", color: "#ef4444" },
-  { quarter: "Q1 '26", growth: 0.2, label: "Near-flat forecast", color: "#6b7280" },
+  { quarter: "Q1 '25", growth: 1.5, color: "#10b981" },
+  { quarter: "Q2 '25", growth: 0.8, color: "#f59e0b" },
+  { quarter: "Q3 '25", growth: -1.1, color: "#ef4444" },
+  { quarter: "Q4 '25", growth: -2.2, color: "#ef4444" },
+  { quarter: "Q1 '26*", growth: 0.2, color: "#6b7280" },
+  { quarter: "Q2 '26*", growth: -0.5, color: "#ef4444" },
 ];
 
 const categoryImpactData = [
-  { category: "Smartphones", priceIncrease: 26, purchaseDecline: 37, share: 53.3 },
-  { category: "Laptops/Tablets", priceIncrease: 45, purchaseDecline: 68, share: 18.2 },
-  { category: "TVs", priceIncrease: 31, purchaseDecline: 42, share: 8.7 },
-  { category: "Game Consoles", priceIncrease: 69, purchaseDecline: 55, share: 4.1 },
-  { category: "Smart Home", priceIncrease: 18, purchaseDecline: 28, share: 6.4 },
-  { category: "Audio/Wearables", priceIncrease: 22, purchaseDecline: 31, share: 9.3 },
+  { category: "Smartphones", priceIncrease: 26, purchaseDecline: 37 },
+  { category: "Laptops/Tablets", priceIncrease: 45, purchaseDecline: 68 },
+  { category: "TVs", priceIncrease: 31, purchaseDecline: 42 },
+  { category: "Game Consoles", priceIncrease: 69, purchaseDecline: 55 },
+  { category: "Smart Home", priceIncrease: 18, purchaseDecline: 28 },
+  { category: "Audio/Wearables", priceIncrease: 22, purchaseDecline: 31 },
+];
+
+const expectationsData = [
+  { month: "Jan '25", expectations: 86.4, present: 120.6 },
+  { month: "Mar '25", expectations: 74.0, present: 110.2 },
+  { month: "May '25", expectations: 64.5, present: 100.8 },
+  { month: "Jul '25", expectations: 70.2, present: 105.3 },
+  { month: "Sep '25", expectations: 66.0, present: 102.8 },
+  { month: "Nov '25", expectations: 64.1, present: 100.0 },
+  { month: "Jan '26", expectations: 72.0, present: 120.0 },
+  { month: "Mar '26", expectations: 70.9, present: 123.3 },
+  { month: "Apr '26", expectations: 72.2, present: 123.8 },
+];
+
+const inflationExpData = [
+  { month: "Jan '25", yearAhead: 3.3, longRun: 3.2 },
+  { month: "Feb '25", yearAhead: 3.5, longRun: 3.2 },
+  { month: "Mar '25", yearAhead: 3.9, longRun: 3.2 },
+  { month: "Apr '25", yearAhead: 6.5, longRun: 3.3 },
+  { month: "May '25", yearAhead: 5.8, longRun: 3.3 },
+  { month: "Jun '25", yearAhead: 5.2, longRun: 3.3 },
+  { month: "Jul '25", yearAhead: 4.8, longRun: 3.2 },
+  { month: "Aug '25", yearAhead: 4.9, longRun: 3.3 },
+  { month: "Sep '25", yearAhead: 4.4, longRun: 3.2 },
+  { month: "Oct '25", yearAhead: 4.2, longRun: 3.3 },
+  { month: "Nov '25", yearAhead: 4.0, longRun: 3.5 },
+  { month: "Dec '25", yearAhead: 3.8, longRun: 3.3 },
+  { month: "Jan '26", yearAhead: 4.0, longRun: 3.3 },
+  { month: "Feb '26", yearAhead: 3.4, longRun: 3.3 },
+  { month: "Mar '26", yearAhead: 3.8, longRun: 3.2 },
+  { month: "Apr '26", yearAhead: 4.7, longRun: 3.5 },
+  { month: "May '26*", yearAhead: 4.5, longRun: 3.4 },
 ];
 
 const timelineEvents = [
-  { date: "Jan 2025", event: "Stable start — 46% of consumers optimistic, low unemployment, steady inflation", type: "positive" },
-  { date: "Apr 2, 2025", event: '"Liberation Day" — sweeping 25% tariffs on imports from China, Canada, Mexico announced', type: "negative" },
-  { date: "Apr–May 2025", event: "Consumer pull-forward: rush purchases in electronics ahead of price hikes", type: "neutral" },
-  { date: "May 2025", event: "Net sentiment drops 32%. Tariffs become #2 consumer concern after inflation", type: "negative" },
-  { date: "Jun–Jul 2025", event: "Brief rebound as trade deal negotiations begin; 90-day pause on some tariffs", type: "positive" },
-  { date: "Aug 2025", event: "New tariffs on ~70 countries; consumer sentiment reverses gains", type: "negative" },
-  { date: "H2 2025", event: "CE sales decline 2.2% YoY. Lower/middle-income buyers pull back sharply", type: "negative" },
-  { date: "Q4 2025", event: "Holiday season cautious. 50% of consumers delay electronics purchases", type: "negative" },
-  { date: "Jan 2026", event: "CTA forecasts $565B in US consumer tech. Circana forecasts just 0.2% growth", type: "neutral" },
-  { date: "Feb 2026", event: "Sentiment at 56.6 — 21% below Jan 2025. Deep income/wealth divide persists", type: "negative" },
+  { date: "Jan 2025", event: "Stable start \u2014 46% of consumers optimistic, low unemployment, steady inflation", type: "positive" },
+  { date: "Apr 2, 2025", event: '"Liberation Day" \u2014 sweeping 25% tariffs on imports from China, Canada, Mexico. Net sentiment drops 32% in May.', type: "negative" },
+  { date: "H1 2025", event: "CE sales grow 1.5% driven by tariff pull-forward buying in March\u2013April. Best Buy FY26 guidance held initially.", type: "neutral" },
+  { date: "Aug 2025", event: "New tariffs on ~70 countries. Sentiment reverses July rebound. Year-ahead inflation expectations hit 4.9%.", type: "negative" },
+  { date: "H2 2025", event: "CE sales decline 2.2% YoY. Best Buy cuts guidance to $41.1\u201341.9B. 50% of consumers delay electronics purchases.", type: "negative" },
+  { date: "Jan\u2013Feb 2026", event: "False dawn: Michigan edges to 56.6 but gains are confined to stockholders. Circana forecasts just 0.2% CE growth.", type: "neutral" },
+  { date: "Feb 28, 2026", event: "US military conflict with Iran begins. Strait of Hormuz closes Mar 4. Oil surges past $120/barrel.", type: "negative" },
+  { date: "Mar 2026", event: "Michigan plunges 6% to 53.3. Year-ahead inflation expectations jump to 3.8%. Gas approaches $4/gallon.", type: "negative" },
+  { date: "Apr 8, 2026", event: "Temporary two-week ceasefire. Michigan prelim hits record low 47.6 (98% surveyed pre-ceasefire); revised to 49.8 final.", type: "negative" },
+  { date: "Apr 2026", event: "CPI hits 3.8% annual \u2014 highest in 3 years. Year-ahead inflation expectations surge to 4.7%. Electronics prices rise 0.6% m/m.", type: "negative" },
+  { date: "May 8, 2026", event: "Michigan prelim: 48.2. Current conditions fell 9%. ~33% cite gas prices, ~30% cite tariffs. Buying conditions for durables deteriorate further.", type: "negative" },
+  { date: "May 12, 2026", event: "April CPI released: 3.8% annual. Gas at $4.50/gallon nationally. Memory chip shortages from AI buildout pushing electronics prices higher.", type: "negative" },
 ];
 
 const CustomTooltip = ({ active, payload, label }) => {
@@ -60,7 +98,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         fontSize: 13,
       }}>
         <p style={{ color: "#94a3b8", margin: 0, marginBottom: 6, fontWeight: 600 }}>{label}</p>
-        {payload.map((p, i) => (
+        {payload.map((p, i) => p.value != null && (
           <p key={i} style={{ color: p.color, margin: "3px 0", fontSize: 12 }}>
             {p.name}: <span style={{ fontWeight: 700 }}>{p.value}</span>
           </p>
@@ -76,19 +114,19 @@ const StatCard = ({ value, label, delta, deltaLabel, color = "#e2e8f0" }) => (
     background: "rgba(255,255,255,0.03)",
     border: "1px solid rgba(255,255,255,0.06)",
     borderRadius: 12,
-    padding: "20px 24px",
+    padding: "18px 20px",
     flex: 1,
-    minWidth: 180,
+    minWidth: 170,
   }}>
-    <div style={{ fontSize: 32, fontWeight: 800, color, fontFamily: "'Space Mono', monospace", letterSpacing: "-1px" }}>
+    <div style={{ fontSize: 30, fontWeight: 800, color, fontFamily: "'Space Mono', monospace", letterSpacing: "-1px" }}>
       {value}
     </div>
-    <div style={{ fontSize: 12, color: "#64748b", marginTop: 4, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+    <div style={{ fontSize: 11, color: "#64748b", marginTop: 4, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.5px" }}>
       {label}
     </div>
     {delta && (
       <div style={{
-        fontSize: 12,
+        fontSize: 11,
         color: delta.startsWith("+") ? "#10b981" : "#ef4444",
         marginTop: 8,
         fontWeight: 600,
@@ -104,7 +142,7 @@ const PhaseLabel = ({ phase, color }) => (
     display: "inline-block",
     padding: "3px 10px",
     borderRadius: 100,
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: 600,
     background: `${color}18`,
     color: color,
@@ -120,10 +158,12 @@ export default function Dashboard() {
 
   const tabs = [
     { id: "overview", label: "Overview" },
-    { id: "sentiment", label: "Sentiment Index" },
-    { id: "spending", label: "CE Spending" },
-    { id: "categories", label: "Category Impact" },
-    { id: "timeline", label: "Event Timeline" },
+    { id: "sentiment", label: "Sentiment" },
+    { id: "divergence", label: "Divergence" },
+    { id: "inflation", label: "Inflation" },
+    { id: "spending", label: "CE Sales" },
+    { id: "categories", label: "Categories" },
+    { id: "timeline", label: "Timeline" },
   ];
 
   return (
@@ -133,100 +173,87 @@ export default function Dashboard() {
       color: "#e2e8f0",
       minHeight: "100vh",
       padding: "32px 24px",
-      width: "100%",
-      boxSizing: "border-box",
+      maxWidth: 960,
       margin: "0 auto",
     }}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
-      {/* Header */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#ef4444", boxShadow: "0 0 12px #ef444480" }} />
           <span style={{ fontSize: 11, fontWeight: 600, color: "#ef4444", textTransform: "uppercase", letterSpacing: "1.5px" }}>
-            Case Study
+            Case Study &middot; Updated 5/11/2026
           </span>
         </div>
         <h1 style={{
-          fontSize: 28,
-          fontWeight: 800,
-          margin: 0,
-          lineHeight: 1.2,
+          fontSize: 28, fontWeight: 800, margin: 0, lineHeight: 1.2,
           background: "linear-gradient(135deg, #e2e8f0, #94a3b8)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
+          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
         }}>
           US Consumer Electronics Sentiment
         </h1>
         <p style={{ color: "#64748b", fontSize: 14, margin: "8px 0 0", lineHeight: 1.5 }}>
-          Jan 2025 — Mar 2026 · Tracking the tariff-driven confidence collapse and its impact on consumer electronics
+          Jan 2025 &mdash; May 2026 &middot; Tariffs + Iran war: a dual-shock confidence crisis pushes consumer sentiment to historic lows
         </p>
       </div>
 
-      {/* Tabs */}
-      <div style={{
-        display: "flex",
-        gap: 4,
-        marginBottom: 28,
-        background: "rgba(255,255,255,0.03)",
-        borderRadius: 10,
-        padding: 4,
-        flexWrap: "wrap",
-      }}>
+      <div style={{ display: "flex", gap: 4, marginBottom: 28, background: "rgba(255,255,255,0.03)", borderRadius: 10, padding: 4, flexWrap: "wrap" }}>
         {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            style={{
-              padding: "8px 16px",
-              borderRadius: 8,
-              border: "none",
-              cursor: "pointer",
-              fontSize: 13,
-              fontWeight: 600,
-              fontFamily: "'DM Sans', sans-serif",
-              transition: "all 0.2s",
-              background: activeTab === tab.id ? "rgba(255,255,255,0.1)" : "transparent",
-              color: activeTab === tab.id ? "#e2e8f0" : "#64748b",
-            }}
-          >
-            {tab.label}
-          </button>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
+            padding: "8px 14px", borderRadius: 8, border: "none", cursor: "pointer",
+            fontSize: 13, fontWeight: 600, fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s",
+            background: activeTab === tab.id ? "rgba(255,255,255,0.1)" : "transparent",
+            color: activeTab === tab.id ? "#e2e8f0" : "#64748b",
+          }}>{tab.label}</button>
         ))}
       </div>
 
-      {/* Overview Tab */}
       {activeTab === "overview" && (
         <div>
-          {/* Stat Cards */}
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 28 }}>
-            <StatCard value="56.6" label="Michigan Sentiment (Feb '26)" delta="-21%" deltaLabel="vs Jan 2025" color="#f59e0b" />
-            <StatCard value="50%" label="Consumers delaying electronics" delta="+18pp" deltaLabel="vs Q1 2025" color="#ef4444" />
-            <StatCard value="0.2%" label="2026 CE sales growth forecast" delta="-1.3pp" deltaLabel="vs H1 2025" color="#6b7280" />
-            <StatCard value="$565B" label="2026 US consumer tech forecast" delta="+3.8%" deltaLabel="total market" color="#10b981" />
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
+            <StatCard value="48.2" label="Michigan (May '26 prelim)" delta="-34%" deltaLabel="vs Jan 2025 \u00b7 Record low" color="#ef4444" />
+            <StatCard value="$4.50" label="Gas price (5/12/26)" delta="+40%" deltaLabel="vs Jan 2026" color="#ea580c" />
+            <StatCard value="3.8%" label="April CPI (annual)" delta="+1.5pp" deltaLabel="vs Jan \u00b7 3-year high" color="#ef4444" />
+            <StatCard value="4.5%" label="Inflation expectations" delta="+1.1pp" deltaLabel="vs Feb '26 low" color="#f59e0b" />
           </div>
 
-          {/* Key Narrative */}
+          <div style={{
+            background: "linear-gradient(135deg, rgba(220,38,38,0.1), rgba(234,88,12,0.06))",
+            border: "1px solid rgba(220,38,38,0.2)",
+            borderRadius: 14, padding: "20px 24px", marginBottom: 20,
+            display: "flex", gap: 14, alignItems: "flex-start",
+          }}>
+            <div style={{ fontSize: 22, marginTop: 2 }}>{"\u26A0"}</div>
+            <div>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#dc2626", margin: "0 0 6px" }}>
+                Dual Shock: Tariffs + Iran War = Historic Lows
+              </h4>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
+                Consumer sentiment has reached its lowest level since the University of Michigan began tracking in 1952. The May preliminary reading of 48.2 reflects compounding pressures: ongoing tariff-driven price increases (electronics up 0.6% m/m in April), the Iran war energy shock ($4.50/gallon gas), and memory chip shortages from AI buildout pushing CE prices even higher. About one-third of consumers spontaneously cite gas prices and ~30% cite tariffs. Buying conditions for durables have deteriorated to crisis levels.
+              </p>
+            </div>
+          </div>
+
           <div style={{
             background: "linear-gradient(135deg, rgba(239,68,68,0.06), rgba(245,158,11,0.04))",
             border: "1px solid rgba(239,68,68,0.12)",
-            borderRadius: 14,
-            padding: "24px 28px",
-            marginBottom: 28,
+            borderRadius: 14, padding: "24px 28px", marginBottom: 28,
           }}>
             <h3 style={{ fontSize: 15, fontWeight: 700, margin: "0 0 12px", color: "#f59e0b" }}>
-              The Story in Five Phases
+              The Story in Seven Phases
             </h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { phase: "Cautious Optimism", period: "Jan–Feb '25", color: "#10b981", desc: "46% of consumers felt optimistic. Electronics spending intentions muted but stable." },
-                { phase: "Tariff Shock", period: "Apr–May '25", color: "#ef4444", desc: '"Liberation Day" tariffs triggered the steepest sentiment drop since the pandemic. Net sentiment fell 32% in May.' },
-                { phase: "Bifurcated Trough", period: "Jun–Aug '25", color: "#f59e0b", desc: "Brief rebound in July collapsed as new tariffs hit in August. High-income shoppers sustained spending; lower-income pulled back sharply." },
-                { phase: "Holiday Erosion", period: "Sep–Dec '25", color: "#ef4444", desc: "H2 CE sales fell 2.2%. 50% planned to delay electronics purchases. Sentiment hit year-end low of 52.9." },
-                { phase: "Stagnant Recovery", period: "Jan–Mar '26", color: "#6b7280", desc: "Sentiment edges up to 56.6 but remains 21% below Jan '25. Market growth forecast near-flat at 0.2%." },
+                { phase: "Cautious Optimism", period: "Jan\u2013Feb '25", color: "#10b981", desc: "46% optimistic. Electronics spending intentions muted but stable." },
+                { phase: "Tariff Shock", period: "Apr\u2013May '25", color: "#ef4444", desc: '"Liberation Day" tariffs. Net sentiment fell 32%. Pull-forward CE buying in March\u2013April.' },
+                { phase: "Bifurcated Trough", period: "Jun\u2013Aug '25", color: "#f59e0b", desc: "Brief July rebound collapsed with August tariff wave. High-income sustained spending; lower-income pulled back sharply." },
+                { phase: "Holiday Erosion", period: "Sep\u2013Dec '25", color: "#ef4444", desc: "H2 CE sales fell 2.2%. Best Buy cut guidance. 50% delayed electronics purchases. Michigan hit 52.9." },
+                { phase: "False Dawn", period: "Jan\u2013Feb '26", color: "#6b7280", desc: "Michigan edged to 56.6. Gains confined to stockholders; non-equity households stagnated." },
+                { phase: "Iran War Shock", period: "Mar\u2013Apr '26", color: "#dc2626", desc: "Strait of Hormuz closed. Oil past $120/bbl. Michigan crashed to record low 49.8. CPI hit 3.8% (3-year high). Inflation expectations surged to 4.7%." },
+                { phase: "Crisis Floor", period: "May '26\u2013Now", color: "#991b1b", desc: "Michigan at 48.2 \u2014 all-time low. Current conditions fell 9%. Gas at $4.50. Electronics prices rising from tariffs + chip shortages + energy costs. No recovery in sight until supply disruptions resolve." },
               ].map((p, i) => (
                 <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div style={{ minWidth: 120, paddingTop: 2 }}>
+                  <div style={{ minWidth: 130, paddingTop: 2 }}>
                     <PhaseLabel phase={p.phase} color={p.color} />
                   </div>
                   <div>
@@ -238,85 +265,61 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Mini sentiment chart */}
-          <div style={{
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 14,
-            padding: "20px 20px 8px",
-          }}>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "20px 20px 8px" }}>
             <h3 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 16px", color: "#94a3b8" }}>
-              Michigan Consumer Sentiment Index · Jan 2025–Feb 2026
+              Michigan Consumer Sentiment Index &middot; Jan 2025\u2013May 2026
             </h3>
-            <ResponsiveContainer width="100%" height={220}>
+            <ResponsiveContainer width="100%" height={230}>
               <AreaChart data={sentimentData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                 <defs>
                   <linearGradient id="sentGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.3} />
-                    <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#ef4444" stopOpacity={0.25} />
+                    <stop offset="100%" stopColor="#ef4444" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                 <XAxis dataKey="month" tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={{ stroke: "rgba(255,255,255,0.06)" }} />
-                <YAxis domain={[45, 80]} tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} />
+                <YAxis domain={[44, 80]} tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <ReferenceLine y={80} stroke="rgba(239,68,68,0.3)" strokeDasharray="4 4" label={{ value: "Recession threshold (Expectations)", fill: "#ef444480", fontSize: 9, position: "insideTopRight" }} />
-                <Area type="monotone" dataKey="michigan" stroke="#f59e0b" strokeWidth={2.5} fill="url(#sentGrad)" name="Michigan Index" dot={{ r: 3, fill: "#f59e0b", stroke: "#0a0a0f", strokeWidth: 2 }} />
+                <ReferenceLine y={50} stroke="rgba(239,68,68,0.35)" strokeDasharray="4 4" label={{ value: "Previous all-time low (Jun 2022)", fill: "#ef444460", fontSize: 9, position: "insideTopRight" }} />
+                <Area type="monotone" dataKey="michigan" stroke="#ef4444" strokeWidth={2.5} fill="url(#sentGrad)" name="Michigan Index" dot={{ r: 3, fill: "#ef4444", stroke: "#0a0a0f", strokeWidth: 2 }} connectNulls />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
       )}
 
-      {/* Sentiment Index Tab */}
       {activeTab === "sentiment" && (
         <div>
-          <div style={{
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 14,
-            padding: "24px 24px 12px",
-            marginBottom: 20,
-          }}>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "24px 24px 12px", marginBottom: 20 }}>
             <h3 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>Dual Confidence Indices</h3>
             <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 20px" }}>
-              University of Michigan vs Conference Board · Both show sharp decline from Q2 2025
+              Michigan (household finances/inflation focus) vs Conference Board (labor market focus) &middot; Historic divergence: Michigan at record lows while CB holds steady
             </p>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={sentimentData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                 <XAxis dataKey="month" tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={{ stroke: "rgba(255,255,255,0.06)" }} />
-                <YAxis yAxisId="left" domain={[45, 80]} tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} label={{ value: "Michigan", angle: -90, position: "insideLeft", fill: "#f59e0b80", fontSize: 10 }} />
+                <YAxis yAxisId="left" domain={[44, 80]} tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} label={{ value: "Michigan", angle: -90, position: "insideLeft", fill: "#ef444480", fontSize: 10 }} />
                 <YAxis yAxisId="right" orientation="right" domain={[70, 110]} tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} label={{ value: "Conf. Board", angle: 90, position: "insideRight", fill: "#3b82f680", fontSize: 10 }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend wrapperStyle={{ fontSize: 11, color: "#64748b" }} />
-                <Line yAxisId="left" type="monotone" dataKey="michigan" stroke="#f59e0b" strokeWidth={2.5} name="Michigan Sentiment" dot={{ r: 3, fill: "#f59e0b", stroke: "#0a0a0f", strokeWidth: 2 }} />
-                <Line yAxisId="right" type="monotone" dataKey="conference" stroke="#3b82f6" strokeWidth={2.5} name="Conference Board" dot={{ r: 3, fill: "#3b82f6", stroke: "#0a0a0f", strokeWidth: 2 }} />
+                <Line yAxisId="left" type="monotone" dataKey="michigan" stroke="#ef4444" strokeWidth={2.5} name="Michigan Sentiment" dot={{ r: 3, fill: "#ef4444", stroke: "#0a0a0f", strokeWidth: 2 }} connectNulls />
+                <Line yAxisId="right" type="monotone" dataKey="conference" stroke="#3b82f6" strokeWidth={2.5} name="Conference Board" dot={{ r: 3, fill: "#3b82f6", stroke: "#0a0a0f", strokeWidth: 2 }} connectNulls />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Key insight cards */}
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
             {[
-              { title: "Peak-to-Trough Drop", value: "-28%", detail: "Michigan index fell from 73.2 (Jan '25) to 50.8 (May '25)", color: "#ef4444" },
-              { title: "Wealth Divide", value: "2x", detail: "Stockholders' sentiment recovered; non-stockholders stagnated at depressed levels", color: "#f59e0b" },
-              { title: "Inflation Expectations", value: "6.5%", detail: "One-year-ahead expected inflation hit highest since the 1980s in Apr '25", color: "#ef4444" },
-              { title: "Partisan Gap", value: "73pt", detail: "Republicans at ~100; Democrats/Independents at ~70 on Conference Board index", color: "#8b5cf6" },
+              { title: "All-Time Low", value: "48.2", detail: "May '26 preliminary Michigan reading is the lowest since the survey began in 1952. Below the June 2022 pandemic-inflation trough of 50.", color: "#ef4444" },
+              { title: "Unprecedented Gap", value: "45pt", detail: "Michigan at 48.2, Conference Board at 92.8. The widest divergence ever reflects their different focuses: Michigan tracks prices/gas; CB tracks jobs.", color: "#f59e0b" },
+              { title: "Bipartisan Collapse", value: "All", detail: "April's plunge was \"a rare moment of bipartisan agreement\" \u2014 declines across all political affiliations, income levels, ages, and education.", color: "#8b5cf6" },
+              { title: "Ceasefire Effect", value: "+2.2", detail: "April prelim 47.6 revised to 49.8 final after April 8 ceasefire. But May relapsed to 48.2 as gas stayed high and supply disruptions persisted.", color: "#6b7280" },
             ].map((card, i) => (
-              <div key={i} style={{
-                flex: "1 1 200px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 12,
-                padding: "16px 20px",
-              }}>
-                <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                  {card.title}
-                </div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: card.color, fontFamily: "'Space Mono', monospace", margin: "4px 0" }}>
-                  {card.value}
-                </div>
+              <div key={i} style={{ flex: "1 1 200px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12, padding: "16px 20px" }}>
+                <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>{card.title}</div>
+                <div style={{ fontSize: 28, fontWeight: 800, color: card.color, fontFamily: "'Space Mono', monospace", margin: "4px 0" }}>{card.value}</div>
                 <div style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.4 }}>{card.detail}</div>
               </div>
             ))}
@@ -324,19 +327,91 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* CE Spending Tab */}
+      {activeTab === "divergence" && (
+        <div>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "24px 24px 12px", marginBottom: 20 }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>Present vs. Expectations: The Widening Gap</h3>
+            <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 20px" }}>
+              Conference Board sub-indices &middot; Expectations below 80 for 15 straight months (recession signal threshold)
+            </p>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={expectationsData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                <XAxis dataKey="month" tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={{ stroke: "rgba(255,255,255,0.06)" }} />
+                <YAxis domain={[55, 130]} tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#64748b" }} />
+                <ReferenceLine y={80} stroke="rgba(239,68,68,0.4)" strokeDasharray="4 4" label={{ value: "80 = Recession Signal", fill: "#ef444480", fontSize: 9, position: "insideTopRight" }} />
+                <Line type="monotone" dataKey="present" stroke="#10b981" strokeWidth={2.5} name="Present Situation" dot={{ r: 3, fill: "#10b981", stroke: "#0a0a0f", strokeWidth: 2 }} />
+                <Line type="monotone" dataKey="expectations" stroke="#ef4444" strokeWidth={2.5} name="Expectations Index" dot={{ r: 3, fill: "#ef4444", stroke: "#0a0a0f", strokeWidth: 2 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 280px", background: "linear-gradient(135deg, rgba(239,68,68,0.06), rgba(239,68,68,0.02))", border: "1px solid rgba(239,68,68,0.12)", borderRadius: 14, padding: "20px 24px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#ef4444", margin: "0 0 8px" }}>The Expectations Trap</h4>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
+                Expectations Index at 72.2 \u2014 below the 80 recession threshold for 15 consecutive months. In 1990, 2001, and 2007, similar gaps preceded recessions. The Michigan Expectations component is even worse at 48.5. If consumers believe recession is coming, they spend less \u2014 creating the very downturn they fear.
+              </p>
+            </div>
+            <div style={{ flex: "1 1 280px", background: "linear-gradient(135deg, rgba(16,185,129,0.06), rgba(16,185,129,0.02))", border: "1px solid rgba(16,185,129,0.12)", borderRadius: 14, padding: "20px 24px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#10b981", margin: "0 0 8px" }}>The Labor Market Buffer (Eroding)</h4>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
+                Present Situation at 123.8 \u2014 still elevated because jobs remain available. But "hard to get" responses hit a 5-year high of 21.5% in March. Goldman Sachs projects unemployment rising to 4.6% by year-end. This buffer is the last thing keeping the CB headline above 90.
+              </p>
+            </div>
+            <div style={{ flex: "1 1 280px", background: "linear-gradient(135deg, rgba(234,88,12,0.06), rgba(234,88,12,0.02))", border: "1px solid rgba(234,88,12,0.12)", borderRadius: 14, padding: "20px 24px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#ea580c", margin: "0 0 8px" }}>Why It's Toxic for CE</h4>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
+                "OK today, terrified of tomorrow" consumers defer big-ticket purchases. Buying conditions for durables are at crisis levels. Consumer spending trends remain "cheap thrills and necessary services." Electronics are the quintessential deferrable purchase category.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "inflation" && (
+        <div>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "24px 24px 12px", marginBottom: 20 }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>Consumer Inflation Expectations (Michigan)</h3>
+            <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 20px" }}>
+              Year-ahead and long-run expectations &middot; Two distinct spikes: Apr '25 (tariffs) and Apr '26 (Iran war)
+            </p>
+            <ResponsiveContainer width="100%" height={280}>
+              <LineChart data={inflationExpData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+                <XAxis dataKey="month" tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={{ stroke: "rgba(255,255,255,0.06)" }} />
+                <YAxis domain={[2.5, 7]} tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} unit="%" />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "#64748b" }} />
+                <Line type="monotone" dataKey="yearAhead" stroke="#ef4444" strokeWidth={2.5} name="Year-Ahead" dot={{ r: 3, fill: "#ef4444", stroke: "#0a0a0f", strokeWidth: 2 }} />
+                <Line type="monotone" dataKey="longRun" stroke="#f59e0b" strokeWidth={2.5} name="Long-Run (5-10yr)" dot={{ r: 3, fill: "#f59e0b", stroke: "#0a0a0f", strokeWidth: 2 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 280px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "20px 24px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#ef4444", margin: "0 0 8px" }}>The Double Spike Pattern</h4>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
+                Two distinct inflation expectation spikes: April 2025 (tariff shock, 6.5%) and April 2026 (Iran war, 4.7%). Both driven by different causes but reinforcing the same consumer psychology: prices only go up. The brief normalization to 3.4% in Feb '26 was a mirage.
+              </p>
+            </div>
+            <div style={{ flex: "1 1 280px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "20px 24px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#ea580c", margin: "0 0 8px" }}>CE-Specific Price Pressures</h4>
+              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
+                Electronics face a triple cost squeeze: (1) tariffs on Chinese imports, (2) energy/shipping cost passthrough from the Iran war, and (3) memory chip shortages from the AI buildout. April CPI showed electronics prices up 0.6% m/m. KPMG chief economist warns this is "only beginning."
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {activeTab === "spending" && (
         <div>
-          <div style={{
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 14,
-            padding: "24px 24px 12px",
-            marginBottom: 20,
-          }}>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "24px 24px 12px", marginBottom: 20 }}>
             <h3 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>Consumer Electronics Sales Growth (YoY %)</h3>
             <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 20px" }}>
-              Pull-forward buying in H1 masked a sharper H2 decline · Source: Circana POS data
+              *Q1 &amp; Q2 '26 = Circana forecast/estimates &middot; Source: Circana POS data
             </p>
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={ceSpendingData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
@@ -345,7 +420,7 @@ export default function Dashboard() {
                 <YAxis tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} />
                 <Tooltip content={<CustomTooltip />} />
                 <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" />
-                <Bar dataKey="growth" name="YoY Growth %" radius={[6, 6, 0, 0]} barSize={56}>
+                <Bar dataKey="growth" name="YoY Growth %" radius={[6, 6, 0, 0]} barSize={52}>
                   {ceSpendingData.map((entry, i) => (
                     <Cell key={i} fill={entry.color} fillOpacity={0.85} />
                   ))}
@@ -353,66 +428,30 @@ export default function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-
-          {/* Spending narrative */}
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <div style={{
-              flex: "1 1 280px",
-              background: "linear-gradient(135deg, rgba(16,185,129,0.06), rgba(16,185,129,0.02))",
-              border: "1px solid rgba(16,185,129,0.12)",
-              borderRadius: 14,
-              padding: "20px 24px",
-            }}>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#10b981", margin: "0 0 8px" }}>H1 2025: The Pull-Forward Effect</h4>
+            <div style={{ flex: "1 1 280px", background: "linear-gradient(135deg, rgba(220,38,38,0.06), rgba(220,38,38,0.02))", border: "1px solid rgba(220,38,38,0.12)", borderRadius: 14, padding: "20px 24px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#dc2626", margin: "0 0 8px" }}>The Triple Squeeze on CE</h4>
               <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
-                Consumers rushed to buy electronics in March–April ahead of expected tariff price hikes. H1 retail dollar sales grew 1.5%. 
-                Computers and PCs were the primary growth driver. Best Buy initially maintained guidance despite tariff uncertainty.
+                <strong style={{ color: "#e2e8f0" }}>Tariffs:</strong> Still the base layer. 25% on Chinese imports. CTA estimates $123B in lost consumer purchasing power.
+                <br/><strong style={{ color: "#e2e8f0" }}>Energy:</strong> Iran war pushed gas to $4.50/gallon. Freight, distribution, and manufacturing costs surging. Diesel hits shipping costs for every product.
+                <br/><strong style={{ color: "#e2e8f0" }}>Supply chain:</strong> Memory chip shortages (AI buildout), tungsten prices up 50%+, aluminum up 8% from Gulf disruptions.
               </p>
             </div>
-            <div style={{
-              flex: "1 1 280px",
-              background: "linear-gradient(135deg, rgba(239,68,68,0.06), rgba(239,68,68,0.02))",
-              border: "1px solid rgba(239,68,68,0.12)",
-              borderRadius: 14,
-              padding: "20px 24px",
-            }}>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#ef4444", margin: "0 0 8px" }}>H2 2025: The Pullback</h4>
+            <div style={{ flex: "1 1 280px", background: "linear-gradient(135deg, rgba(107,114,128,0.06), rgba(107,114,128,0.02))", border: "1px solid rgba(107,114,128,0.12)", borderRadius: 14, padding: "20px 24px" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#94a3b8", margin: "0 0 8px" }}>2026 Outlook: Darkening</h4>
               <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
-                Sales declined 2.2% YoY. Pull-forward spending left a demand vacuum. Consumers prioritized essentials over discretionary tech. 
-                Higher-income households sustained some spending, but lower/middle-income buyers pulled back sharply. Best Buy lowered its annual outlook.
-              </p>
-            </div>
-            <div style={{
-              flex: "1 1 280px",
-              background: "linear-gradient(135deg, rgba(107,114,128,0.06), rgba(107,114,128,0.02))",
-              border: "1px solid rgba(107,114,128,0.12)",
-              borderRadius: 14,
-              padding: "20px 24px",
-            }}>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#94a3b8", margin: "0 0 8px" }}>2026 Outlook: Near-Flat</h4>
-              <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.6 }}>
-                Circana forecasts just 0.2% sales growth to $112B. Average prices climbing ~3%. Unit shipments up only 0.7%. 
-                Growth shifting from hardware to software/services (+4.2%). PC replacement cycle and smart glasses provide pockets of growth.
+                Circana's Jan forecast of 0.2% growth now looks optimistic given the Iran war's compounding effect. Average CE prices climbing ~3% on top of tariff inflation. The income bifurcation that sustained H1 2025 spending is cracking \u2014 high-income consumers now feel the gas/market volatility squeeze too. Recovery requires energy price resolution.
               </p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Category Impact Tab */}
       {activeTab === "categories" && (
         <div>
-          <div style={{
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 14,
-            padding: "24px 24px 12px",
-            marginBottom: 20,
-          }}>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "24px 24px 12px", marginBottom: 20 }}>
             <h3 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>Tariff-Driven Price Increases vs Projected Purchase Decline</h3>
-            <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 20px" }}>
-              By CE product category · Source: CTA/Trade Partnership Worldwide analysis
-            </p>
+            <p style={{ fontSize: 12, color: "#64748b", margin: "0 0 20px" }}>Source: CTA/Trade Partnership Worldwide &middot; Note: Iran war energy/supply costs compound these tariff figures</p>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={categoryImpactData} layout="vertical" margin={{ top: 5, right: 20, left: 40, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false} />
@@ -425,21 +464,14 @@ export default function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-
-          {/* Category insights */}
-          <div style={{
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 14,
-            padding: "20px 24px",
-          }}>
-            <h4 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 14px", color: "#94a3b8" }}>Key Category Dynamics</h4>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "20px 24px" }}>
+            <h4 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 14px", color: "#94a3b8" }}>Updated Category Dynamics (May 2026)</h4>
             <div style={{ display: "grid", gap: 12 }}>
               {[
-                { cat: "Smartphones", insight: "Largest segment at 53% revenue share. Prices up ~26% under full tariffs. Buying plans continued trending upward on 6-month basis despite headwinds — driven by upgrade cycles and financing options.", color: "#3b82f6" },
-                { cat: "Laptops & Tablets", insight: "Most exposed category with potential 68% purchase decline. Windows 10 end-of-support driving some replacement demand. Tablets expected to add $200M+ in 2026.", color: "#8b5cf6" },
-                { cat: "Game Consoles", insight: "Steepest projected price increase at 69%. Low-margin products forced to pass tariff costs directly to consumers. Secondhand/resale market surging as a result.", color: "#ef4444" },
-                { cat: "Smart Home & Wearables", insight: "More resilient category with lower tariff exposure. Smart glasses emerging as growth area. Matter standard driving multi-brand interoperability adoption.", color: "#10b981" },
+                { cat: "Smartphones", insight: "53% of CE revenue. Tariff price increases of ~26% compounded by memory chip shortages from AI demand. BNPL financing sustaining some demand. But May Michigan data shows current conditions for major purchases fell 9%.", color: "#3b82f6" },
+                { cat: "Laptops & Tablets", insight: "Most exposed (68% purchase decline projected). Win10 EOL still driving replacement demand. But computers/electronics prices climbing from chip shortages \u2014 KPMG warns this will \"only worsen\" as supply chains tighten for helium and other inputs.", color: "#8b5cf6" },
+                { cat: "Game Consoles", insight: "69% price increase projected. Secondhand/resale booming. Aluminum shortages from Gulf state disruptions could add further pressure on console manufacturing.", color: "#ef4444" },
+                { cat: "Smart Home & Wearables", insight: "Relatively resilient with lower tariff exposure. Smart glasses remain an innovation bright spot. But consumer spending firmly in \"cheap thrills and necessities\" mode \u2014 any discretionary tech is vulnerable.", color: "#10b981" },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                   <div style={{ width: 3, minHeight: 40, borderRadius: 2, background: item.color, marginTop: 2, flexShrink: 0 }} />
@@ -454,87 +486,42 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Timeline Tab */}
       {activeTab === "timeline" && (
         <div>
-          <div style={{
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 14,
-            padding: "24px 28px",
-          }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 20px" }}>Key Events Shaping CE Sentiment</h3>
+          <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "24px 28px" }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 20px" }}>Key Events &middot; Jan 2025\u2013May 2026</h3>
             <div style={{ position: "relative", paddingLeft: 24 }}>
-              {/* Vertical line */}
-              <div style={{
-                position: "absolute",
-                left: 6,
-                top: 6,
-                bottom: 6,
-                width: 2,
-                background: "rgba(255,255,255,0.06)",
-                borderRadius: 1,
-              }} />
+              <div style={{ position: "absolute", left: 6, top: 6, bottom: 6, width: 2, background: "rgba(255,255,255,0.06)", borderRadius: 1 }} />
               {timelineEvents.map((evt, i) => {
                 const dotColor = evt.type === "positive" ? "#10b981" : evt.type === "negative" ? "#ef4444" : "#f59e0b";
                 return (
-                  <div key={i} style={{ position: "relative", marginBottom: 20, paddingLeft: 20 }}>
-                    {/* Dot */}
-                    <div style={{
-                      position: "absolute",
-                      left: -21,
-                      top: 5,
-                      width: 12,
-                      height: 12,
-                      borderRadius: "50%",
-                      background: dotColor,
-                      border: `3px solid #0a0a0f`,
-                      boxShadow: `0 0 8px ${dotColor}60`,
-                    }} />
-                    <div style={{ fontSize: 11, fontWeight: 700, color: dotColor, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      {evt.date}
-                    </div>
-                    <p style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0 0", lineHeight: 1.5 }}>
-                      {evt.event}
-                    </p>
+                  <div key={i} style={{ position: "relative", marginBottom: 18, paddingLeft: 20 }}>
+                    <div style={{ position: "absolute", left: -21, top: 5, width: 12, height: 12, borderRadius: "50%", background: dotColor, border: "3px solid #0a0a0f", boxShadow: `0 0 8px ${dotColor}60` }} />
+                    <div style={{ fontSize: 11, fontWeight: 700, color: dotColor, textTransform: "uppercase", letterSpacing: "0.5px" }}>{evt.date}</div>
+                    <p style={{ fontSize: 13, color: "#cbd5e1", margin: "4px 0 0", lineHeight: 1.5 }}>{evt.event}</p>
                   </div>
                 );
               })}
             </div>
           </div>
-
-          {/* Sources */}
-          <div style={{
-            marginTop: 20,
-            padding: "16px 20px",
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: 12,
-          }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>
-              Data Sources
-            </div>
+          <div style={{ marginTop: 20, padding: "16px 20px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 12 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "#475569", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Data Sources</div>
             <p style={{ fontSize: 11, color: "#64748b", margin: 0, lineHeight: 1.6 }}>
-              University of Michigan Surveys of Consumers · The Conference Board Consumer Confidence Index · 
-              McKinsey ConsumerWise Quarterly Surveys · Circana Future of Technology Report (Jan 2026) · 
-              CTA U.S. Consumer Technology Industry Forecast (Jan 2026) · Deloitte Consumer Products Outlook 2026 · 
-              CTA/Trade Partnership Worldwide Tariff Impact Analysis · Morning Consult Tariff Sentiment Tracker · 
-              NielsenIQ Global Tech Market Outlook 2026
+              University of Michigan Surveys of Consumers (May '26 prelim: 48.2, 5/8/26; Apr final: 49.8, 4/24/26) &middot;
+              Conference Board CCI (Apr '26: 92.8, 4/28/26) &middot;
+              BLS Consumer Price Index (Apr '26 CPI: 3.8%, 5/12/26) &middot;
+              Circana Future of Technology (Jan '26) &middot; CTA Industry Forecast (Jan '26) &middot;
+              McKinsey ConsumerWise &middot; Deloitte Consumer Products Outlook &middot;
+              CTA/Trade Partnership Worldwide Tariff Impact &middot;
+              Wikipedia: Economic impact of the 2026 Iran war &middot;
+              Fortune, Al Jazeera, Axios, Advisor Perspectives (May 2026)
             </p>
           </div>
         </div>
       )}
 
-      {/* Footer */}
-      <div style={{
-        marginTop: 32,
-        paddingTop: 16,
-        borderTop: "1px solid rgba(255,255,255,0.04)",
-        fontSize: 10,
-        color: "#334155",
-        textAlign: "center",
-      }}>
-        Analysis compiled March 2026 · Data from multiple industry sources · Some projections based on partial tariff scenarios
+      <div style={{ marginTop: 32, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.04)", fontSize: 10, color: "#334155", textAlign: "center" }}>
+        Analysis compiled May 11, 2026 &middot; Data from multiple industry sources &middot; *Preliminary or forecast figures
       </div>
     </div>
   );
