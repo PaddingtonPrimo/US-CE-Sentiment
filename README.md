@@ -1,6 +1,6 @@
 # US Consumer Electronics Sentiment Dashboard
 
-An interactive React dashboard tracking US consumer electronics sentiment from January 2025 through June 2026, covering the tariff-driven confidence collapse and its impact on the CE market.
+An interactive React dashboard tracking US consumer electronics sentiment from January 2025 through July 2026, covering the tariff-driven confidence collapse and its impact on the CE market.
 
 **Live site:** https://paddingtonprimo.github.io/US-CE-Sentiment/
 
