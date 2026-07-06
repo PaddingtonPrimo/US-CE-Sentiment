@@ -284,7 +284,7 @@ export default function Dashboard() {
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#f59e0b", boxShadow: "0 0 12px #f59e0b80" }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: "#f59e0b", textTransform: "uppercase", letterSpacing: "1.5px" }}>Client Readout v2.2 &middot; Data refreshed 7/6/2026 &middot; Triple-audited pre-publish</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "#f59e0b", textTransform: "uppercase", letterSpacing: "1.5px" }}>Client Readout v2.2 &middot; Data refreshed 7/6/2026</span>
         </div>
         <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0, lineHeight: 1.2, background: "linear-gradient(135deg, #e2e8f0, #94a3b8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>US CE Sentiment &amp; Meta Outlook</h1>
         <p style={{ color: "#64748b", fontSize: 14, margin: "8px 0 0", lineHeight: 1.5 }}>Jan 2025 &mdash; Jul 2026 actuals, with scenario outlook through 2027 &middot; Sentiment is stabilizing off May's record low as the energy shock unwinds &mdash; but cost-of-living pressure, memory-chip inflation, and a softening labor market define the road ahead for Meta Smart Glasses and Quest.</p>
