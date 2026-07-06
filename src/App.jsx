@@ -276,8 +276,10 @@ export default function Dashboard() {
   ];
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#0a0a0f", color: "#e2e8f0", minHeight: "100vh", padding: "32px 24px", maxWidth: 980, margin: "0 auto" }}>
+    <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#0a0a0f", color: "#e2e8f0", minHeight: "100vh", width: "100%", boxSizing: "border-box", padding: "clamp(16px, 4vw, 32px) clamp(12px, 3vw, 28px)" }}>
+      <style>{`html, body, #root { margin: 0 !important; padding: 0 !important; background: #0a0a0f !important; } * { box-sizing: border-box; }`}</style>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+      <div style={{ width: "100%", maxWidth: 1200, margin: "0 auto" }}>
 
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
@@ -600,6 +602,7 @@ export default function Dashboard() {
 
       <div style={{ marginTop: 32, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.04)", fontSize: 11, color: "#64748b", textAlign: "center" }}>
         Compiled July 6, 2026 &middot; 2020 Companies GTM Strategy &amp; Enablement &middot; Next data: CPI ~Jul 14 &middot; Michigan prelim Jul 17 &middot; Samsung Unpacked Jul 22 &middot; Conference Board Jul 28 &middot; Meta Q2 earnings late Jul
+      </div>
       </div>
     </div>
   );
