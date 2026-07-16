@@ -78,6 +78,27 @@ const SRC = {
   idcMemory: { label: "IDC — Global memory shortage crisis & 2026 device impact", url: "https://www.idc.com/resource-center/blog/global-memory-shortage-crisis-market-analysis-and-the-potential-impact-on-the-smartphone-and-pc-markets-in-2026/" },
   memRoundup: { label: "SoftwareSeni — Memory-market analyst roundup (TrendForce, Gartner, Counterpoint)", url: "https://www.softwareseni.com/dram-prices-in-2026-have-doubled-and-the-numbers-are-getting-worse/" },
   openbrand: { label: "OpenBrand — 2026 price forecasts for durables", url: "https://openbrand.com/newsroom/blog/2026-price-forecasts-for-durables" },
+  // --- Retail traffic & events (appended v2.3 — never reorder keys above) ---
+  colliersJan: { label: "Colliers — US Retail Monthly Foot Traffic & Sales, January 2026", url: "https://www.colliers.com/en/research/nrep-usret-us-retailer-foot-traffic-january-2026" },
+  colliersFeb: { label: "Colliers — US Retail Monthly Foot Traffic & Sales, February 2026", url: "https://www.colliers.com/en/research/nrep-usret-us-retailer-foot-traffic-february-2026" },
+  colliersMar: { label: "Colliers — US Retail Monthly Foot Traffic & Sales, March 2026", url: "https://www.colliers.com/en/research/nrep-usret-us-retailer-foot-traffic-march-2026" },
+  colliersApr: { label: "Colliers — US Retail Monthly Foot Traffic & Sales, April 2026", url: "https://www.colliers.com/en/research/nrep-usret-us-retailer-foot-traffic-april-2026" },
+  colliersMay: { label: "Colliers — US Retail Monthly Foot Traffic & Sales, May 2026", url: "https://www.colliers.com/en/research/nrep-usret-us-retailer-foot-traffic-may-2026" },
+  creMay: { label: "CRE Daily — May 2026 retail sales surge masks slower volume growth (Colliers data)", url: "https://www.credaily.com/briefs/retail-sales-surge-in-may-2026-masks-slower-volume-growth/" },
+  sensormaticBF: { label: "Business Wire — Sensormatic ShopperTrak: Black Friday 2025 US traffic", url: "https://www.businesswire.com/news/home/20251129908975/en/U.S.-Retail-Traffic-Was-In-Line-With-Year-to-Date-Trends-on-Black-Friday-According-to-Sensormatic-Solutions-ShopperTrak-Analytics" },
+  sensormaticDays: { label: "Sensormatic — 2025 global top busiest shopping days", url: "https://www.sensormatic.com/resources/pr/2025/2025-global-top-busiest-days" },
+  placerH1: { label: "Placer.ai — Retail's Balancing Act: first half of 2025", url: "https://www.placer.ai/anchor/articles/retails-balancing-act-first-half-of-2025" },
+  placerElec: { label: "Placer.ai — Electronics stores foot traffic trends (live tracker)", url: "https://www.placer.ai/industries/electronic-stores" },
+  trocWC: { label: "T-ROC — World Cup retail trends: FIFA 2026 spending & foot traffic", url: "https://trocglobal.com/world-cup-retail-trends-how-fifa-2026-will-drive-spending-and-foot-traffic/" },
+  robinWC: { label: "The Robin Report — The World Cup kicks off a retail windfall", url: "https://therobinreport.com/the-world-cup-kicks-off-a-retail-windfall/" },
+  fedWC: { label: "CNBC — NY Fed: World Cup watch parties boosted bars/restaurants (Jul 15, 2026)", url: "https://www.cnbc.com/2026/07/15/world-cup-economy-spending-alcohol-hotels-fed.html" },
+  icscWC: { label: "ICSC — Retailers and landlords prepare for the World Cup's “gravitational pull”", url: "https://www.icsc.com/news-and-views/icsc-exchange/retailers-and-landlords-prepare-for-world-cups-gravitational-pull" },
+  aaaJuly4: { label: "AAA Newsroom — Record 72.2M Americans expected to travel over July 4th week 2026", url: "https://newsroom.aaa.com/2026/06/72-2-million-americans-expected-to-travel-over-july-4th-week/" },
+  wralGas: { label: "WRAL — July 4th 2026 gas expected second-most expensive ever", url: "https://www.wral.com/news/local/gas-prices-fourth-of-july-week-expected-to-be-second-most-expensive-june-2026/" },
+  primeRivals: { label: "Yahoo Shopping — Prime Day 2026 (Jun 23–26) rival sales: Best Buy Tech Fest, Target Circle", url: "https://shopping.yahoo.com/deals/articles/best-anti-prime-day-sales-160001015.html" },
+  nrfBTS: { label: "NRF — Back-to-class shopping expected to reach record levels (electronics largest category)", url: "https://nrf.com/media-center/press-releases/back-class-shopping-expected-reach-record-levels" },
+  deloitteBTS: { label: "Deloitte — Back-to-school spending holds steady amid economic uncertainty", url: "https://www.deloitte.com/us/en/about/press-room/deloitte-back-to-school-spending-holds-steady.html" },
+  aiTraffic: { label: "Yahoo Finance — AI/agentic traffic to US retailers +393% in Q1 2026", url: "https://finance.yahoo.com/sectors/technology/articles/ai-traffic-us-retailers-jumps-160141756.html" },
 };
 const SRC_KEYS = Object.keys(SRC);
 const srcNum = (id) => SRC_KEYS.indexOf(id) + 1;
@@ -167,6 +188,16 @@ const scenarioData = [
   { month: "Jun '27", base: 57, bull: 65, bear: 41 },
   { month: "Sep '27", base: 59, bull: 68, bear: 43 },
   { month: "Dec '27", base: 61, bull: 70, bear: 45 },
+];
+
+// US total retail: sales vs foot traffic, YoY % (Colliers monthly analyses).
+// Traffic measures store visits, not transactions.
+const retailTrafficData = [
+  { month: "Jan '26", sales: 3.1, traffic: 3.7 },
+  { month: "Feb '26", sales: 3.6, traffic: 4.7 },
+  { month: "Mar '26", sales: 4.5, traffic: 1.7 },
+  { month: "Apr '26", sales: 4.6, traffic: 2.6 },
+  { month: "May '26", sales: 5.2, traffic: 1.9 },
 ];
 
 const timelineEvents = [
@@ -268,6 +299,7 @@ export default function Dashboard() {
     { id: "sentiment", label: "Sentiment" },
     { id: "inflation", label: "Inflation & Costs" },
     { id: "cemarket", label: "CE Market" },
+    { id: "traffic", label: "Retail Traffic" },
     { id: "glasses", label: "Smart Glasses" },
     { id: "quest", label: "Quest & VR" },
     { id: "outlook", label: "2027 Outlook" },
@@ -284,7 +316,7 @@ export default function Dashboard() {
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#f59e0b", boxShadow: "0 0 12px #f59e0b80" }} />
-          <span style={{ fontSize: 11, fontWeight: 600, color: "#f59e0b", textTransform: "uppercase", letterSpacing: "1.5px" }}>Client Readout v2.2 &middot; Data refreshed 7/6/2026</span>
+          <span style={{ fontSize: 11, fontWeight: 600, color: "#f59e0b", textTransform: "uppercase", letterSpacing: "1.5px" }}>Client Readout v2.3 &middot; Data refreshed 7/16/2026</span>
         </div>
         <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0, lineHeight: 1.2, background: "linear-gradient(135deg, #e2e8f0, #94a3b8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>US CE Sentiment &amp; Meta Outlook</h1>
         <p style={{ color: "#64748b", fontSize: 14, margin: "8px 0 0", lineHeight: 1.5 }}>Jan 2025 &mdash; Jul 2026 actuals, with scenario outlook through 2027 &middot; Sentiment is stabilizing off May's record low as the energy shock unwinds &mdash; but cost-of-living pressure, memory-chip inflation, and a softening labor market define the road ahead for Meta Smart Glasses and Quest.</p>
@@ -456,6 +488,40 @@ export default function Dashboard() {
         </div>
       </div>)}
 
+      {/* ================= RETAIL TRAFFIC ================= */}
+      {activeTab === "traffic" && (<div>
+        <BottomLine>Store traffic is holding up, but it is mission-driven and value-led: shoppers make purposeful trips, and since spring, dollars have been growing faster than visits. For CE-assorting retailers, events — tax refunds, Prime Day week, the World Cup, back-to-school — are what put people in aisles.</BottomLine>
+        <ChartBox title="US Retail: Sales Growth vs Store Foot Traffic (YoY %) &middot; 2026" subtitle={<>Colliers monthly foot-traffic & sales analyses (Placer.ai visitation data + Census sales). Note: May's +5.2% sales was heavily price-driven — gas-station sales +25.4%; ex-gasoline growth moderates to +3.7%, most of it price, not volume. Sources: <A s="colliersJan">Jan</A>, <A s="colliersFeb">Feb</A>, <A s="colliersMar">Mar</A>, <A s="colliersApr">Apr</A>, <A s="colliersMay">May</A>, <A s="creMay">CRE Daily</A>.</>}>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={retailTrafficData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
+              <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 12 }} tickLine={false} axisLine={{ stroke: "rgba(255,255,255,0.06)" }} />
+              <YAxis tick={{ fill: "#475569", fontSize: 10 }} tickLine={false} axisLine={false} unit="%" />
+              <Tooltip content={<CustomTooltip />} /><Legend wrapperStyle={{ fontSize: 11, color: "#64748b" }} />
+              <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" />
+              <Bar dataKey="sales" name="Retail sales YoY %" fill="#3b82f6" fillOpacity={0.85} radius={[5, 5, 0, 0]} barSize={26} />
+              <Bar dataKey="traffic" name="Foot traffic YoY %" fill="#10b981" fillOpacity={0.85} radius={[5, 5, 0, 0]} barSize={26} />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartBox>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
+          <Card title="Observed: Traffic Positive, but Value-Led" color="#10b981">US store traffic has stayed positive through 2026 even as sentiment sat at record lows — Jan +3.7%, Feb +4.7%, moderating to +1.7–2.6% in spring, a slowdown Colliers ties to inflation-driven selectivity, coinciding with the oil-price shock<CiteChips ids={["colliersJan", "colliersFeb", "colliersMar", "colliersApr", "colliersMay"]} />. The composition matters: since March, dollars have grown faster than visits, and Placer.ai's H1 2025 read — visits lagging in big-ticket discretionary categories like electronics and home improvement while value channels held — remains the operative pattern<CiteChips ids={["placerH1"]} />. Sensormatic's store-visit counts ran −2.2% YTD through Black Friday 2025, so 2026's positive Colliers prints are an inflection off a soft base on that measure (methodologies differ across providers)<CiteChips ids={["sensormaticBF"]} />.</Card>
+          <Card title="Observed: Electronics — Fewer, Bigger Trips" color="#3b82f6">Electronics-assorting retail is the clearest fewer-but-bigger-trips story in the dataset: February electronics sales +4.9% on modestly dipping store visits (refund-boosted, partly online)<CiteChips ids={["colliersFeb"]} />; March +6.1% sales on −0.85% visits<CiteChips ids={["colliersMar"]} />; April +9.1% sales on +2.47% visits as tax-refund dollars went to technology<CiteChips ids={["colliersApr"]} />. Best Buy's Q1 FY27 comps (+2%, gaming/computing/mobile led) corroborate demand concentrating in fewer, higher-intent visits<CiteChips ids={["bbyQ1"]} />. Conversion per visit, not visit count, is the KPI in this environment.</Card>
+        </div>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
+          <Card title="Influence: Holiday 2025 — The Soft Base" color="#ef4444">Black Friday 2025 store visits fell 2.1% YoY — in line with 2025's −2.2% year-to-date trend — though the week itself surged +56.7% over the prior week and Black Friday ran +248.9% above the prior Friday<CiteChips ids={["sensormaticBF"]} />. Sensormatic's season forecast was flat to −3%, with Christmas falling on a Thursday for the first time in over a decade extending the final pre-Christmas high-traffic run<CiteChips ids={["sensormaticBF", "sensormaticDays"]} />. The Oct 1–Nov 12 government shutdown sat directly on top of early-holiday traffic building<CiteChips ids={["umichNov25", "cbNov25"]} />.</Card>
+          <Card title="Influence: Gas Prices & Summer Travel" color="#f59e0b">Gas is the single most reliable traffic influence in this dataset — it moved sentiment (June's entire rebound) and it moves trips. AAA forecast a record 72.2M July 4th-week travelers (Jun 27–Jul 5), 61.4M by car (~85% driving)<CiteChips ids={["aaaJuly4"]} />, against the second-most-expensive July 4th at the pump on record — national average $3.86 as of June 29, easing toward $3.80 by the holiday<CiteChips ids={["wralGas", "aaa"]} />. Heavy travel weeks divert traffic from home-market retail corridors toward travel corridors and destination markets — a timing consideration for demo events and staffing in both directions<CiteChips ids={["aaaJuly4"]} />.</Card>
+        </div>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
+          <Card title="Influence: World Cup (Jun 11–Jul 19, 2026)" color="#8b5cf6">The largest event overlay of the period: 104 matches across the US, Canada, and Mexico with ~6.5M expected attendees; projected $1.47B in US wholesale/retail economic activity (OpenEconomics for FIFA/WTO, via ICSC)<CiteChips ids={["icscWC", "robinWC"]} />. Observed so far: the NY Fed reported watch parties gave bars and restaurants a needed boost, with the tourism lift partly mitigated by economic weakness elsewhere<CiteChips ids={["fedWC"]} />. For CE assortments, the watch-party mechanic is the hook — big-screen TVs, audio, and streaming hardware — and retailers positioned viewing-party bundles across Prime Day week accordingly<CiteChips ids={["trocWC", "primeRivals"]} />.</Card>
+          <Card title="Influence: Promo Calendar Compression" color="#ea580c">Amazon moved Prime Day 2026 to June 23–26 — directly inside the World Cup group stage — and rivals stacked on top: Best Buy ran a weeklong “Tech Fest” (Jun 22–28) and Target ran Circle Deal Days (Jun 23–26)<CiteChips ids={["primeRivals"]} />. That compressed the period's promo energy into late June, immediately ahead of the record July 4th travel week<CiteChips ids={["aaaJuly4"]} /> — an unusually event-dense three weeks that pulled discretionary CE demand forward and rewarded retailers with in-store pickup and same-day fulfillment.</Card>
+        </div>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
+          <Card title="Expected: H2 2026 Traffic Setup" color="#a78bfa" forecast>Back-to-school (Jul–Aug): electronics is the largest planned category in NRF's back-to-class survey (~$293 average per K-12 household, ~$14.7B; college ~$342/$24.6B)<CiteChips ids={["nrfBTS"]} />, but Deloitte finds parents delaying pricier laptops/tablets where possible<CiteChips ids={["deloitteBTS"]} /> — colliding with memory-driven laptop price increases of 15–20%<CiteChips ids={["idcMemory"]} />. Expect BTS traffic to skew value channels and deal moments, with CE dollars concentrated in promo windows. World Cup knockout rounds (through Jul 19) keep a TV/audio halo alive into mid-July<CiteChips ids={["trocWC"]} />. Holiday 2026: if gas relief holds (EIA path<CiteChips ids={["eiaSteo"]} />), the traffic base comps easy against 2025's −2.2%; a re-escalation scenario reverses that (see 2027 Outlook).</Card>
+          <Card title="Items of Note" color="#94a3b8">(1) Agentic/AI-referred traffic to US retailers jumped 393% in Q1 2026, with AI-referred shoppers outspending humans — digital “foot traffic” is starting to arrive without feet, raising the strategic value of in-store demo experiences that agents can't replicate<CiteChips ids={["aiTraffic"]} />. (2) Placer.ai maintains a live electronics-stores visitation tracker — the fastest check between Colliers monthlies<CiteChips ids={["placerElec"]} />. (3) ICSC frames the World Cup as a “gravitational pull” event for host-market centers — 11 US host metros are positioned for localized traffic surges that won't read in national averages<CiteChips ids={["icscWC"]} />. (4) Traffic data measures visits, not transactions; pair with POS (Circana) and retailer comps before drawing demand conclusions<CiteChips ids={["circanaRetail"]} />.</Card>
+        </div>
+      </div>)}
+
       {/* ================= SMART GLASSES ================= */}
       {activeTab === "glasses" && (<div>
         <BottomLine>The one CE category growing through the sentiment trough. Defend share and floor presence ahead of Samsung's Q3 entry.</BottomLine>
@@ -579,6 +645,7 @@ export default function Dashboard() {
             { group: "XR / Smart Glasses Market Research", ids: ["idcGlasses", "idcGlassesFc", "counterpoint", "idcXR", "sqmagVR"] },
             { group: "Competitive Landscape", ids: ["samsungGlasses", "samsungUnpacked", "tomsSamsung", "roadtovr27", "idevice"] },
             { group: "CE Industry, Retail & Components", ids: ["bbyQ1", "bbyCorp", "ctaJan26", "ctaTariff", "ctaVariety", "circanaJan26", "circanaRetail", "gamefileNov", "gamedevDec", "trendforce", "tomsDram", "idcMemory", "memRoundup", "openbrand"] },
+            { group: "Retail Traffic & Events (added v2.3)", ids: ["colliersJan", "colliersFeb", "colliersMar", "colliersApr", "colliersMay", "creMay", "sensormaticBF", "sensormaticDays", "placerH1", "placerElec", "trocWC", "robinWC", "fedWC", "icscWC", "aaaJuly4", "wralGas", "primeRivals", "nrfBTS", "deloitteBTS", "aiTraffic"] },
           ].map((g, gi) => (
             <div key={gi} style={{ marginBottom: 18 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>{g.group}</div>
@@ -595,7 +662,7 @@ export default function Dashboard() {
         <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14, padding: "20px 24px" }}>
           <h4 style={{ fontSize: 13, fontWeight: 700, color: "#f59e0b", margin: "0 0 8px" }}>Data Quality & Methodology Notes</h4>
           <p style={{ fontSize: 12, color: "#94a3b8", margin: 0, lineHeight: 1.7 }}>
-            (1) v2 correction: H2 2025 Michigan and Conference Board values in the prior published dashboard were interpolated placeholders; this version replaces them with final released figures, which also restores two omitted events (the May 2025 trade-truce rebound and the Oct–Nov 2025 government shutdown). (2) Conference Board values reflect latest published revisions: Dec '25 revised up to 94.2 (from 89.1); Jan '26 initially 84.5, revised to 89.0; May '26 revised down to 90.6; Oct/Nov '25 revised up. (3) The quarterly CE sales chart is a directional internal estimate, not an official Circana series. (4) The category price chart uses CTA/TPW's revised January 2025 tariff-only model; earlier-vintage purchase-decline projections were removed in audit as untraceable. (5) Quest shipment estimates vary by methodology (sell-in vs sell-through); the ~42% full-year figure is a third-party aggregator estimate. (6) Secondary sources are labeled "via" where an intermediary reports another firm's data. (7) All 2027 content is forecast and labeled as such; scenario probabilities are internal judgment. (8) Sentiment measures feelings, not behavior — Best Buy's Q1 FY27 beat is the standing reminder that point-of-sale can diverge from surveys. (9) This build was reviewed by three independent audits (data accuracy, executive formatting, source consolidation) prior to publish; all HIGH- and MEDIUM-severity findings were remediated.
+            (1) v2 correction: H2 2025 Michigan and Conference Board values in the prior published dashboard were interpolated placeholders; this version replaces them with final released figures, which also restores two omitted events (the May 2025 trade-truce rebound and the Oct–Nov 2025 government shutdown). (2) Conference Board values reflect latest published revisions: Dec '25 revised up to 94.2 (from 89.1); Jan '26 initially 84.5, revised to 89.0; May '26 revised down to 90.6; Oct/Nov '25 revised up. (3) The quarterly CE sales chart is a directional internal estimate, not an official Circana series. (4) The category price chart uses CTA/TPW's revised January 2025 tariff-only model; earlier-vintage purchase-decline projections were removed in audit as untraceable. (5) Quest shipment estimates vary by methodology (sell-in vs sell-through); the ~42% full-year figure is a third-party aggregator estimate. (6) Secondary sources are labeled "via" where an intermediary reports another firm's data. (7) All 2027 content is forecast and labeled as such; scenario probabilities are internal judgment. (8) Sentiment measures feelings, not behavior — Best Buy's Q1 FY27 beat is the standing reminder that point-of-sale can diverge from surveys. (9) This build was reviewed by three independent audits (data accuracy, executive formatting, source consolidation) prior to publish; all HIGH- and MEDIUM-severity findings were remediated; the v2.3 Retail Traffic additions received a dedicated data-accuracy audit. (10) Retail-traffic figures are store-visit measures (Colliers analyses of Placer.ai visitation data; Sensormatic ShopperTrak counts) — visits, not transactions; the NRF and Deloitte back-to-school figures reflect their most recent published surveys as linked.
           </p>
         </div>
       </div>)}
